@@ -1,4 +1,4 @@
-//Привязка события
+//event
 window.onload = function() {
     var input = document.getElementById('file');
     input.addEventListener('change', import_image);
@@ -10,7 +10,7 @@ window.onload = function() {
     decode_button.addEventListener('click', decode);
 };
 
-//Отображение файла на canvas
+//Preview
 var import_image = function(e) {
     var reader = new FileReader();
 
@@ -28,7 +28,7 @@ var import_image = function(e) {
     reader.readAsDataURL(e.target.files[0]);
 };
 
-//Кодирование фото
+//Encode img
 var encode = function() {
     var message = document.getElementById('message').value;
     var image_encoded = document.getElementById('image_encoded');
@@ -47,7 +47,7 @@ var encode = function() {
     image_encoded.src = canvas.toDataURL();
 };
 
-//Декодирование фото
+//Decode img
 var decode = function() {
     var ctx = document.getElementById('canvas').getContext('2d');
     var img_data = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -56,7 +56,7 @@ var decode = function() {
     document.getElementById('message_decoded').innerHTML = message;
 };
 
-//Преобразовать двоичный код в строку
+//Convert bin to str
 var get_number_from_bits = function(bytes, history) {
     var number = 0;
     var pos = 0;
@@ -90,7 +90,7 @@ var set_bit = function(number, location, bit) {
     return (number & ~(1 << location)) | (bit << location);
 };
 
-//Преобразовать строку в двоичный код
+//Convert str to bin
 var get_message_bits = function(message) {
     var message_bits = [];
 
@@ -112,7 +112,7 @@ var getBit = function(number, location) {
     return ((number >> location) & 1);
 };
 
-//Кодирование сообщения
+//Encode message
 var encode_message = function(colors, message) {
     var message_bits = get_bits_from_number(message.length);
     message_bits = message_bits.concat(get_message_bits(message));
@@ -130,7 +130,7 @@ var encode_message = function(colors, message) {
     }
 };
 
-//Декодирование сообщения
+//Decode message
 var decode_message = function(colors) {
     var history = [];
     var message_size = get_number_from_bits(colors, history);

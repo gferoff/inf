@@ -28,24 +28,6 @@ var import_image = function(e) {
     reader.readAsDataURL(e.target.files[0]);
 };
 
-//Encode img
-var encode = function() {
-    var message = document.getElementById('message').value;
-    var image_encoded = document.getElementById('image_encoded');
-    var canvas = document.getElementById('canvas');
-    var ctx = canvas.getContext('2d');
-    var pixel_count = ctx.canvas.width * ctx.canvas.height;
-
-    if ((message.length + 1) * 16 > pixel_count * 4 * 0.75) {
-        alert('Слишком большой файл');
-        return;
-    }
-
-    var img_data = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
-    encode_message(img_data.data, message);
-    ctx.putImageData(img_data, 0, 0);
-    image_encoded.src = canvas.toDataURL();
-};
 
 //Decode img
 var decode = function() {
@@ -110,24 +92,6 @@ var get_bits_from_number = function(number) {
 };
 var getBit = function(number, location) {
     return ((number >> location) & 1);
-};
-
-//Encode message
-var encode_message = function(colors, message) {
-    var message_bits = get_bits_from_number(message.length);
-    message_bits = message_bits.concat(get_message_bits(message));
-    var history = [];
-    var pos = 0;
-
-    while (pos < message_bits.length) {
-        var loc = get_next_location(history, colors.length);
-        colors[loc] = set_bit(colors[loc], 0, message_bits[pos]);
-        while ((loc + 1) % 4 !== 0) {
-            loc++;
-        }
-        colors[loc] = 255;
-        pos++;
-    }
 };
 
 //Decode message
